@@ -1,0 +1,152 @@
+[5] pry(main)> b1 = Brewery.create name:"BrewDog", year:2007
+   (0.1ms)  begin transaction
+  SQL (0.5ms)  INSERT INTO "breweries" ("name", "year", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["name", "BrewDog"], ["year", 2007], ["created_at", "2017-01-27 17:17:07.178042"], ["updated_at", "2017-01-27 17:17:07.178042"]]
+   (45.7ms)  commit transaction
+=> #<Brewery:0xb7d13dc
+ id: 5,
+ name: "BrewDog",
+ year: 2007,
+ created_at: Fri, 27 Jan 2017 17:17:07 UTC +00:00,
+ updated_at: Fri, 27 Jan 2017 17:17:07 UTC +00:00>
+[6] pry(main)> b1.save
+   (0.1ms)  begin transaction
+   (0.1ms)  commit transaction
+=> true
+[7] pry(main)> b1.beers.create name:"Punk IPA", style:"IPA"
+   (0.1ms)  begin transaction
+  SQL (0.5ms)  INSERT INTO "beers" ("name", "style", "brewery_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["name", "Punk IPA"], ["style", "IPA"], ["brewery_id", 5], ["created_at", "2017-01-27 17:18:18.107633"], ["updated_at", "2017-01-27 17:18:18.107633"]]
+   (51.5ms)  commit transaction
+=> #<Beer:0xb867044
+ id: 13,
+ name: "Punk IPA",
+ style: "IPA",
+ brewery_id: 5,
+ created_at: Fri, 27 Jan 2017 17:18:18 UTC +00:00,
+ updated_at: Fri, 27 Jan 2017 17:18:18 UTC +00:00>
+[8] pry(main)> b1.beers.create name:"Nanny State", style:"lowalcohol"
+   (0.1ms)  begin transaction
+  SQL (0.4ms)  INSERT INTO "beers" ("name", "style", "brewery_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["name", "Nanny State"], ["style", "lowalcohol"], ["brewery_id", 5], ["created_at", "2017-01-27 17:18:41.385755"], ["updated_at", "2017-01-27 17:18:41.385755"]]
+   (46.4ms)  commit transaction
+=> #<Beer:0xa4ad9f4
+ id: 14,
+ name: "Nanny State",
+ style: "lowalcohol",
+ brewery_id: 5,
+ created_at: Fri, 27 Jan 2017 17:18:41 UTC +00:00,
+ updated_at: Fri, 27 Jan 2017 17:18:41 UTC +00:00>
+[9] pry(main)> b.save
+   (0.1ms)  begin transaction
+   (0.1ms)  commit transaction
+=> true
+[10] pry(main)>
+[10] pry(main)> BrewDog.beers
+NameError: uninitialized constant BrewDog
+from (pry):10:in `__pry__'
+[11] pry(main)> Brewery.fourth
+  Brewery Load (0.3ms)  SELECT  "breweries".* FROM "breweries"  ORDER BY "breweries"."id" ASC LIMIT 1 OFFSET 3
+=> #<Brewery:0xb944e94
+ id: 5,
+ name: "BrewDog",
+ year: 2007,
+ created_at: Fri, 27 Jan 2017 17:17:07 UTC +00:00,
+ updated_at: Fri, 27 Jan 2017 17:17:07 UTC +00:00>
+[12] pry(main)> BrewDog = _
+=> #<Brewery:0xb944e94
+ id: 5,
+ name: "BrewDog",
+ year: 2007,
+ created_at: Fri, 27 Jan 2017 17:17:07 UTC +00:00,
+ updated_at: Fri, 27 Jan 2017 17:17:07 UTC +00:00>
+[13] pry(main)> BrewDog.beers
+  Beer Load (0.3ms)  SELECT "beers".* FROM "beers" WHERE "beers"."brewery_id" = ?  [["brewery_id", 5]]
+=> [#<Beer:0x9d6ac28
+  id: 13,
+  name: "Punk IPA",
+  style: "IPA",
+  brewery_id: 5,
+  created_at: Fri, 27 Jan 2017 17:18:18 UTC +00:00,
+  updated_at: Fri, 27 Jan 2017 17:18:18 UTC +00:00>,
+ #<Beer:0x9d6aaac
+  id: 14,
+  name: "Nanny State",
+  style: "lowalcohol",
+  brewery_id: 5,
+  created_at: Fri, 27 Jan 2017 17:18:41 UTC +00:00,
+  updated_at: Fri, 27 Jan 2017 17:18:41 UTC +00:00>]
+[14] pry(main)> Nanny = BrewDog.first
+NoMethodError: undefined method `first' for #<Brewery:0xb944e94>
+from /var/lib/gems/2.3.0/gems/activemodel-4.2.7/lib/active_model/attribute_methods.rb:433:in `method_missing'
+[15] pry(main)> Nanny = BrewDog.beers.first
+=> #<Beer:0x9d6ac28
+ id: 13,
+ name: "Punk IPA",
+ style: "IPA",
+ brewery_id: 5,
+ created_at: Fri, 27 Jan 2017 17:18:18 UTC +00:00,
+ updated_at: Fri, 27 Jan 2017 17:18:18 UTC +00:00>
+[16] pry(main)> Nanny.ratings.create secore:10
+   (0.1ms)  begin transaction
+   (0.1ms)  rollback transaction
+ActiveRecord::UnknownAttributeError: unknown attribute 'secore' for Rating.
+from /var/lib/gems/2.3.0/gems/activerecord-4.2.7/lib/active_record/attribute_assignment.rb:59:in `rescue in _assign_attribute'
+[17] pry(main)> Nanny.ratings.create score:10
+   (0.1ms)  begin transaction
+  SQL (0.4ms)  INSERT INTO "ratings" ("score", "beer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["score", 10], ["beer_id", 13], ["created_at", "2017-01-27 17:24:09.577764"], ["updated_at", "2017-01-27 17:24:09.577764"]]
+   (42.2ms)  commit transaction
+=> #<Rating:0xbad42a0
+ id: 4,
+ score: 10,
+ beer_id: 13,
+ created_at: Fri, 27 Jan 2017 17:24:09 UTC +00:00,
+ updated_at: Fri, 27 Jan 2017 17:24:09 UTC +00:00>
+[18] pry(main)> Nanny.ratings.create score:12
+   (0.1ms)  begin transaction
+  SQL (0.5ms)  INSERT INTO "ratings" ("score", "beer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["score", 12], ["beer_id", 13], ["created_at", "2017-01-27 17:24:13.121687"], ["updated_at", "2017-01-27 17:24:13.121687"]]
+   (30.2ms)  commit transaction
+=> #<Rating:0xbb10534
+ id: 5,
+ score: 12,
+ beer_id: 13,
+ created_at: Fri, 27 Jan 2017 17:24:13 UTC +00:00,
+ updated_at: Fri, 27 Jan 2017 17:24:13 UTC +00:00>
+[19] pry(main)> Nanny.save
+   (0.1ms)  begin transaction
+   (0.1ms)  commit transaction
+=> true
+[20] pry(main)> IPA = BrewDog.beers.second
+=> #<Beer:0x9d6aaac
+ id: 14,
+ name: "Nanny State",
+ style: "lowalcohol",
+ brewery_id: 5,
+ created_at: Fri, 27 Jan 2017 17:18:41 UTC +00:00,
+ updated_at: Fri, 27 Jan 2017 17:18:41 UTC +00:00>
+[21] pry(main)> IPA.ratings.create score:11
+   (0.1ms)  begin transaction
+  SQL (0.4ms)  INSERT INTO "ratings" ("score", "beer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["score", 11], ["beer_id", 14], ["created_at", "2017-01-27 17:25:21.398173"], ["updated_at", "2017-01-27 17:25:21.398173"]]
+   (40.0ms)  commit transaction
+=> #<Rating:0xbbbb09c
+ id: 6,
+ score: 11,
+ beer_id: 14,
+ created_at: Fri, 27 Jan 2017 17:25:21 UTC +00:00,
+ updated_at: Fri, 27 Jan 2017 17:25:21 UTC +00:00>
+[22] pry(main)> IPA.ratings.create score:20
+   (0.1ms)  begin transaction
+  SQL (0.5ms)  INSERT INTO "ratings" ("score", "beer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["score", 20], ["beer_id", 14], ["created_at", "2017-01-27 17:25:28.319623"], ["updated_at", "2017-01-27 17:25:28.319623"]]
+   (40.4ms)  commit transaction
+=> #<Rating:0xbbedda8
+ id: 7,
+ score: 20,
+ beer_id: 14,
+ created_at: Fri, 27 Jan 2017 17:25:28 UTC +00:00,
+ updated_at: Fri, 27 Jan 2017 17:25:28 UTC +00:00>
+[23] pry(main)> IPA.save
+   (0.1ms)  begin transaction
+   (0.1ms)  commit transaction
+=> true
+[24] pry(main)> BrewDog.save
+   (0.1ms)  begin transaction
+   (0.1ms)  commit transaction
+=> true
+[25] pry(main)>
