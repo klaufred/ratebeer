@@ -13,6 +13,9 @@ group :production do
    gem 'rails_12factor'
 end
 
+
+gem 'bcrypt', '~> 3.1.7'
+
 ruby '2.3.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
