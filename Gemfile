@@ -8,6 +8,16 @@ group :development, :test do
   gem 'sqlite3'
 end
 
+group :development, :test do
+  gem 'rspec-rails', '~> 3.5'
+end
+
+group :test do
+  gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'launchy'
+end
+
 group :production do
    gem 'pg'
    gem 'rails_12factor'

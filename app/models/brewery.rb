@@ -6,16 +6,8 @@ class Brewery < ActiveRecord::Base
 
 	validates :name, presence: true
 	validates :year, numericality: { greater_than_or_equal_to: 1042,
-																		less_than_or_equal_to: 2017,
+																	 less_than_or_equal_to: Proc.new { Time.now.year },
 																		only_integer: true }
-
-	validate :at_most_modern_date
-
-	def at_most_modern_date
-		if year.present? && year.date <= Date.today
-			errors.add(:year, "can't be in the future")
-		end
-	end
 
 	def print_report
 		puts name
