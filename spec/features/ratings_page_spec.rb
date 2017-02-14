@@ -24,4 +24,40 @@ describe "Rating" do
     expect(beer1.ratings.count).to eq(1)
     expect(beer1.average_rating).to eq(15.0)
   end
+
+  it "amounts are shown correctly" do
+    visit new_rating_path
+    select('iso 3', from:'rating[beer_id]')
+    fill_in('rating[score]', with:'15')
+
+    expect{
+      click_button "Create Rating"
+    }.to change{Rating.count}.from(0).to(1)
+
+    visit ratings_path
+    expect(page).to have_content 'Number of ratings: 1'
+  end
+
+  it "can bee seen on users page" do
+
+    visit new_rating_path
+    select('iso 3', from:'rating[beer_id]')
+    fill_in('rating[score]', with:'15')
+    click_button "Create Rating"
+
+    visit user_path(user)
+    expect(page).to have_content 'iso 3 15'
+  end
+
+  it "can be deleted correctly" do
+    visit new_rating_path
+    select('iso 3', from:'rating[beer_id]')
+    fill_in('rating[score]', with:'15')
+    click_button "Create Rating"
+
+    visit user_path(user)
+    expect{
+      click_on "delete"
+    }.to change{Rating.count}.from(1).to(0)
+  end
 end

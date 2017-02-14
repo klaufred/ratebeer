@@ -1,3 +1,0 @@
-== README
-
-https://safe-brushlands-15186.herokuapp.com/
