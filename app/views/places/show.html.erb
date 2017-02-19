@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+  <% @places.each do |place| %>
+      <p><strong>Name:</strong> <%= place.send(:name)%></p>
+      <p><strong>Status:</strong> <%= place.send(:status) %></p>
+      <p><strong>Street:</strong> <%= place.send(:street) %></p>
+      <p><strong>City:</strong> <%= place.send(:city) %></p>
+      <p><strong>Country:</strong> <%= place.send(:country) %></p>
+  <% end %>
+
+<iframe width="600" height="450" frameborder="0" style="border:0"
+        src= <%= @google %> ></iframe>
+
+<%= link_to 'Back', users_path %>

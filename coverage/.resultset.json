@@ -183,7 +183,7 @@
         null,
         null,
         1,
-        167,
+        173,
         124,
         null,
         null
@@ -440,6 +440,53 @@
         null,
         null
       ],
+      "/home/blacksheep/ratebeer/lib/beermapping_api.rb": [
+        1,
+        1,
+        5,
+        null,
+        5,
+        5,
+        null,
+        5,
+        null,
+        3,
+        3,
+        19,
+        null,
+        null,
+        null,
+        1,
+        5,
+        5,
+        null,
+        null
+      ],
+      "/home/blacksheep/ratebeer/app/models/place.rb": [
+        1,
+        null,
+        1,
+        5,
+        null,
+        null
+      ],
+      "/home/blacksheep/ratebeer/app/controllers/places_controller.rb": [
+        1,
+        null,
+        1,
+        1,
+        null,
+        null,
+        1,
+        3,
+        3,
+        1,
+        null,
+        2,
+        null,
+        null,
+        null
+      ],
       "/home/blacksheep/ratebeer/app/controllers/ratings_controller.rb": [
         1,
         1,
@@ -634,6 +681,6 @@
         0
       ]
     },
-    "timestamp": 1487067736
+    "timestamp": 1487516326
   }
 }
