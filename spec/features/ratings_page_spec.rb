@@ -1,10 +1,11 @@
 require 'rails_helper'
+
 include Helpers
 
 describe "Rating" do
-  let!(:brewery) { FactoryGirl.create :brewery, name:"Koff" }
-  let!(:beer1) { FactoryGirl.create :beer, name:"iso 3", brewery:brewery }
-  let!(:beer2) { FactoryGirl.create :beer, name:"Karhu", brewery:brewery }
+  let!(:brewery) { FactoryGirl.create :brewery, name: "Koff" }
+  let!(:beer1) { FactoryGirl.create :beer, name: "iso 3", brewery: brewery }
+  let!(:beer2) { FactoryGirl.create :beer, name: "Karhu", brewery: brewery }
   let!(:user) { FactoryGirl.create :user }
 
   before :each do
@@ -13,8 +14,8 @@ describe "Rating" do
 
   it "when given, is registered to the beer and user who is signed in" do
     visit new_rating_path
-    select('iso 3', from:'rating[beer_id]')
-    fill_in('rating[score]', with:'15')
+    select('iso 3', from: 'rating[beer_id]')
+    fill_in('rating[score]', with: '15')
 
     expect{
       click_button "Create Rating"
@@ -25,39 +26,20 @@ describe "Rating" do
     expect(beer1.average_rating).to eq(15.0)
   end
 
-  it "amounts are shown correctly" do
-    visit new_rating_path
-    select('iso 3', from:'rating[beer_id]')
-    fill_in('rating[score]', with:'15')
+  describe "when several exist" do
+    before :each do
+      create_beers_with_ratings(FactoryGirl.create(:brewery), FactoryGirl.create(:style), user, 10, 7, 9)
+      visit ratings_path
+    end
 
-    expect{
-      click_button "Create Rating"
-    }.to change{Rating.count}.from(0).to(1)
+    it "all are shown at ratings page" do
+      expect(page).to have_content "anonymous 10 #{user.username}"
+      expect(page).to have_content "anonymous 7 #{user.username}"
+      expect(page).to have_content "anonymous 9 #{user.username}"
+    end
 
-    visit ratings_path
-    expect(page).to have_content 'Number of ratings: 1'
-  end
-
-  it "can bee seen on users page" do
-
-    visit new_rating_path
-    select('iso 3', from:'rating[beer_id]')
-    fill_in('rating[score]', with:'15')
-    click_button "Create Rating"
-
-    visit user_path(user)
-    expect(page).to have_content 'iso 3 15'
-  end
-
-  it "can be deleted correctly" do
-    visit new_rating_path
-    select('iso 3', from:'rating[beer_id]')
-    fill_in('rating[score]', with:'15')
-    click_button "Create Rating"
-
-    visit user_path(user)
-    expect{
-      click_on "delete"
-    }.to change{Rating.count}.from(1).to(0)
+    it "their count is shown ratings page" do
+      expect(page).to have_content "Number of ratings: #{Rating.count}"
+    end
   end
 end

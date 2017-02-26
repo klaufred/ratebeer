@@ -5,12 +5,13 @@ class PlacesController < ApplicationController
   end
 
   def show
-    @places = BeermappingApi.find_place(params[:id])
-    @google = "https://www.google.com/maps/embed/v1/place?q=place_id:ChIJkQYhlscLkkYRY_fiO4S9Ts0&key=#{google_key}"
+    @place = BeermappingApi.place_in(session['last_city'], params[:id])
   end
 
   def search
     @places = BeermappingApi.places_in(params[:city])
+    @weather = WeatherService.weather_for(:city)
+    session['last_city'] = params[:city]
     if @places.empty?
       redirect_to places_path, notice: "No locations in #{params[:city]}"
     else

@@ -60,6 +60,18 @@ class UsersController < ApplicationController
     end
   end
 
+  def change_block
+    return nil if not current_user.admin?
+    user = User.find(params[:id])
+    if user.blocked?
+      user.update_attribute :blocked, false
+      redirect_to :back, notice:"Account restored"
+    else
+      user.update_attribute :blocked, true
+      redirect_to :back, notice:"Account frozen"
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

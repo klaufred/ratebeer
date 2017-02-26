@@ -19,7 +19,7 @@ describe "Beer" do
       }.to change{Beer.count}.by(1)
     end
 
-    it "and cannot be vreated if not has correct error name" do
+    it "and cannot be created if not has correct error name" do
       expect{
         click_button('Create Beer')
       }.to change{Beer.count}.by(0)

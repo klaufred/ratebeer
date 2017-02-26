@@ -7,8 +7,23 @@
   <%= submit_tag "Search" %>
 <% end %>
 
+<% if @weather %>
+    <h4>The current beer weather in <%= params[:city] %></h4>
+    <img src="<%= @weather.image %>" >
+    <br>
+    <div>
+      <%= @weather.temperature %> Celcius
+    </div>
+    <br>
+    <div>
+      <strong>wind:</strong>
+      <%= @weather.wind_speed %> m/sec,
+      direction <%= @weather.wind_direction %>
+    </div>
+<% end %>
+
 <% if @places %>
-    <table>
+    <table class="table table-hover">
       <thead>
         <td>Name</td>
         <td>Status</td>
